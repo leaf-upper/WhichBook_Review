@@ -1,7 +1,18 @@
 package com.whichbook.review.review;
 
+import com.whichbook.review.aop.IsAuthenticated;
+import com.whichbook.review.review.dto.BookDto;
+import com.whichbook.review.review.dto.ReviewResponseDto;
+import com.whichbook.review.review.dto.UserDto;
+import com.whichbook.review.review.provider.Provider;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriBuilder;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +31,7 @@ public class ReviewService {
     }
 
     public List<ReviewResponseDto> getLatestReviews() {
-        List<Review> reviews = reviewRepository.findTop9ByCreatedAtOrderByCreatedAtDesc(LocalDateTime.now());
+        List<Review> reviews = reviewRepository.findTopByCreatedAtBeforeOrderByCreatedAt(LocalDateTime.now());
 
         return reviews.stream().map(review -> {
             UserDto userDto = userProvider.requestById(review.getUserId());
@@ -30,4 +41,14 @@ public class ReviewService {
         }).collect(Collectors.toList());
     }
 
+    @IsAuthenticated
+    public URI createReview(ReviewRequestDto reviewRequestDto) {
+        Review review = reviewRequestDto.toReview();
+        review = reviewRepository.save(review);
+
+        return ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .build(review.getId());
+    }
 }

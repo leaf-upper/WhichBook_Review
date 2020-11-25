@@ -1,5 +1,6 @@
-package com.whichbook.review.review;
+package com.whichbook.review.review.dto;
 
+import com.whichbook.review.review.Review;
 import lombok.Builder;
 import lombok.Data;
 

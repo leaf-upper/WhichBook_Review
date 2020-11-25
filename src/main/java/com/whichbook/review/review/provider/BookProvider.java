@@ -1,5 +1,6 @@
-package com.whichbook.review.review;
+package com.whichbook.review.review.provider;
 
+import com.whichbook.review.review.dto.BookDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -14,6 +15,7 @@ public class BookProvider extends AbstractProvider<BookDto>{
 
     @Override
     public BookDto requestById(Long id) {
-        return null;
+        String url = requestUrl + "/book/{bookId}";
+        return restTemplate.getForObject(url, BookDto.class, id);
     }
 }

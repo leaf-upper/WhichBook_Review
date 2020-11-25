@@ -1,4 +1,4 @@
-package com.whichbook.review.review;
+package com.whichbook.review.review.dto;
 
 import lombok.Data;
 

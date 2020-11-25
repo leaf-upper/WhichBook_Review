@@ -1,14 +1,12 @@
 package com.whichbook.review.review;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@NoArgsConstructor @Setter @Getter @Builder
+@NoArgsConstructor @AllArgsConstructor
+@Setter @Getter @Builder
 @Entity
 public class Review {
     @Id @GeneratedValue
