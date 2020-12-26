@@ -18,7 +18,11 @@ public class UserProvider extends AbstractProvider<UserDto>{
 
     @Override
     public UserDto requestById(Long id) {
-        return null;
+        String url = requestUrl + "/user/{id}";
+        String nickname = restTemplate.getForObject(url, String.class, id);
+        UserDto userDto = new UserDto();
+        userDto.setNickname(nickname);
+        return userDto;
     }
 
     public void authorizeByToken(String token) {

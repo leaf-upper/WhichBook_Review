@@ -25,7 +25,14 @@ public class ReviewController {
     @PostMapping("/review")
     public ResponseEntity<?> createReview(@Validated @RequestBody ReviewRequestDto reviewRequestDto) {
         URI uri = reviewService.createReview(reviewRequestDto);
-        return ResponseEntity.created(uri).body(reviewRequestDto);
+        return ResponseEntity.created(uri).body(uri.toString());
     }
+
+    @GetMapping("/review/{id}")
+    public ResponseEntity<?> retrieveReview(@PathVariable Long id) {
+        ReviewResponseDto reviewResponseDto = reviewService.retrieveReview(id);
+        return ResponseEntity.ok(reviewResponseDto);
+    }
+
 
 }

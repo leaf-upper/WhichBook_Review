@@ -51,4 +51,11 @@ public class ReviewService {
                 .path("/{id}")
                 .build(review.getId());
     }
+
+    public ReviewResponseDto retrieveReview(Long id) {
+        Review review = reviewRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        UserDto userDto = userProvider.requestById(review.getUserId());
+        BookDto bookDto = bookProvider.requestById(review.getBookId());
+        return ReviewResponseDto.of(review, bookDto, userDto);
+    }
 }
